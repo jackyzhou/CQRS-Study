@@ -80,7 +80,7 @@ namespace Conference.Web.Admin
                     Microsoft.WindowsAzure.ServiceRuntime.RoleEnvironment.RequestRecycle();
                 };
 #endif
-            MaintenanceMode.RefreshIsInMaintainanceMode();
+            //MaintenanceMode.RefreshIsInMaintainanceMode();
 
             DatabaseSetup.Initialize();
 

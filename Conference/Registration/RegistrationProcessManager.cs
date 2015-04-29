@@ -24,6 +24,7 @@ namespace Registration
     using Payments.Contracts.Events;
     using Registration.Commands;
     using Registration.Events;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     /// <summary>
     /// Represents a Process Manager that is in charge of communicating between the different distributed components
@@ -70,6 +71,7 @@ namespace Registration
         public Guid ExpirationCommandId { get; set; }
 
         public int StateValue { get; private set; }
+
         [NotMapped]
         public ProcessState State
         {

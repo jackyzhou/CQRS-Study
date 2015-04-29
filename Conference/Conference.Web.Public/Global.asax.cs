@@ -45,7 +45,7 @@ namespace Conference.Web.Public
 //                    Microsoft.WindowsAzure.ServiceRuntime.RoleEnvironment.RequestRecycle();
 //                };
 //#endif
-            MaintenanceMode.RefreshIsInMaintainanceMode();
+            //MaintenanceMode.RefreshIsInMaintainanceMode();
 
             DatabaseSetup.Initialize();
 

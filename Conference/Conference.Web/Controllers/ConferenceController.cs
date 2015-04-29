@@ -18,6 +18,7 @@ namespace Conference.Web.Admin.Controllers
     using System.Web.Mvc;
     using AutoMapper;
     using Infrastructure.Utils;
+    using System.Data.Entity.Core;
 
     public class ConferenceController : Controller
     {

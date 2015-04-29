@@ -20,8 +20,8 @@ namespace Conference
     using System.Diagnostics;
     using System.Linq;
     using Infrastructure.Messaging;
-    using Microsoft.Practices.EnterpriseLibrary.WindowsAzure.TransientFaultHandling.SqlAzure;
-    using Microsoft.Practices.TransientFaultHandling;
+    using System.Data.Entity.Core;
+    using Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling;
 
     /// <summary>
     /// Transaction-script style domain service that manages 
@@ -33,7 +33,7 @@ namespace Conference
     {
         private readonly IEventBus eventBus;
         private readonly string nameOrConnectionString;
-        private readonly RetryPolicy<SqlAzureTransientErrorDetectionStrategy> retryPolicy;
+        private readonly RetryPolicy<SqlDatabaseTransientErrorDetectionStrategy> retryPolicy;
 
         public ConferenceService(IEventBus eventBus, string nameOrConnectionString = "ConferenceManagement")
         {
@@ -49,7 +49,7 @@ namespace Conference
             this.eventBus = eventBus;
             this.nameOrConnectionString = nameOrConnectionString;
 
-            this.retryPolicy = new RetryPolicy<SqlAzureTransientErrorDetectionStrategy>(new Incremental(5, TimeSpan.FromSeconds(0), TimeSpan.FromSeconds(1.5)) { FastFirstRetry = true });
+            this.retryPolicy = new RetryPolicy<SqlDatabaseTransientErrorDetectionStrategy>(new Incremental(5, TimeSpan.FromSeconds(0), TimeSpan.FromSeconds(1.5)) { FastFirstRetry = true });
             this.retryPolicy.Retrying += (s, e) =>
                 Trace.TraceWarning("An error occurred in attempt number {1} to access the database in ConferenceService: {0}", e.LastException.Message, e.CurrentRetryCount);
  

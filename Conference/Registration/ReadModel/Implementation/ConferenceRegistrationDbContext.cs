@@ -17,8 +17,7 @@ namespace Registration.ReadModel.Implementation
     using System.Data.Entity;
     using System.Diagnostics;
     using System.Linq;
-    using Microsoft.Practices.EnterpriseLibrary.WindowsAzure.TransientFaultHandling.SqlAzure;
-    using Microsoft.Practices.TransientFaultHandling;
+    using Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling;
 
     /// <summary>
     /// A repository stored in a database for the views.
@@ -26,12 +25,12 @@ namespace Registration.ReadModel.Implementation
     public class ConferenceRegistrationDbContext : DbContext
     {
         public const string SchemaName = "ConferenceRegistration";
-        private readonly RetryPolicy<SqlAzureTransientErrorDetectionStrategy> retryPolicy;
+        private readonly RetryPolicy<SqlDatabaseTransientErrorDetectionStrategy> retryPolicy;
 
         public ConferenceRegistrationDbContext(string nameOrConnectionString)
             : base(nameOrConnectionString)
         {
-            this.retryPolicy = new RetryPolicy<SqlAzureTransientErrorDetectionStrategy>(new Incremental(3, TimeSpan.FromSeconds(0), TimeSpan.FromSeconds(1.5)) { FastFirstRetry = true });
+            this.retryPolicy = new RetryPolicy<SqlDatabaseTransientErrorDetectionStrategy>(new Incremental(3, TimeSpan.FromSeconds(0), TimeSpan.FromSeconds(1.5)) { FastFirstRetry = true });
             this.retryPolicy.Retrying += (s, e) =>
                 Trace.TraceWarning("An error occurred in attempt number {1} to access the ConferenceRegistrationDbContext: {0}", e.LastException.Message, e.CurrentRetryCount);
         }
@@ -69,7 +68,7 @@ namespace Registration.ReadModel.Implementation
         {
             var entry = this.Entry(entity);
 
-            if (entry.State == System.Data.EntityState.Detached)
+            if (entry.State == EntityState.Detached)
                 this.Set<T>().Add(entity);
 
             this.retryPolicy.ExecuteAction(() => this.SaveChanges());

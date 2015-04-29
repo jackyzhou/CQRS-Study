@@ -23,8 +23,7 @@ namespace Infrastructure.Sql.Processes
     using Infrastructure.Messaging;
     using Infrastructure.Processes;
     using Infrastructure.Serialization;
-    using Microsoft.Practices.EnterpriseLibrary.WindowsAzure.TransientFaultHandling.SqlAzure;
-    using Microsoft.Practices.TransientFaultHandling;
+    using Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling;
 
     /// <summary>
     /// Data context used to persist instances of <see cref="IProcessManager"/> (also known as Sagas in the CQRS community) using Entity Framework.
@@ -44,7 +43,7 @@ namespace Infrastructure.Sql.Processes
         private readonly ICommandBus commandBus;
         private readonly DbContext context;
         private readonly ITextSerializer serializer;
-        private readonly RetryPolicy<SqlAzureTransientErrorDetectionStrategy> retryPolicy;
+        private readonly RetryPolicy<SqlDatabaseTransientErrorDetectionStrategy> retryPolicy;
 
         public SqlProcessManagerDataContext(Func<DbContext> contextFactory, ICommandBus commandBus, ITextSerializer serializer)
         {
@@ -52,7 +51,7 @@ namespace Infrastructure.Sql.Processes
             this.context = contextFactory.Invoke();
             this.serializer = serializer;
 
-            this.retryPolicy = new RetryPolicy<SqlAzureTransientErrorDetectionStrategy>(new Incremental(3, TimeSpan.Zero, TimeSpan.FromSeconds(1)) { FastFirstRetry = true });
+            this.retryPolicy = new RetryPolicy<SqlDatabaseTransientErrorDetectionStrategy>(new Incremental(3, TimeSpan.Zero, TimeSpan.FromSeconds(1)) { FastFirstRetry = true });
             this.retryPolicy.Retrying += (s, e) => 
                 Trace.TraceWarning("An error occurred in attempt number {1} to save the process manager state: {0}", e.LastException.Message, e.CurrentRetryCount);
         }
@@ -119,7 +118,7 @@ namespace Infrastructure.Sql.Processes
         {
             var entry = this.context.Entry(processManager);
 
-            if (entry.State == System.Data.EntityState.Detached)
+            if (entry.State == EntityState.Detached)
                 this.context.Set<T>().Add(processManager);
 
             var commands = processManager.Commands.ToList();

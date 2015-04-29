@@ -18,7 +18,7 @@ namespace Conference.Common.Entity
     using System.Data.Common;
     using System.Data.Entity.Infrastructure;
     using System.Linq;
-    using Microsoft.WindowsAzure;
+    //using Microsoft.WindowsAzure;
 
     public class ServiceConfigurationSettingConnectionFactory : IDbConnectionFactory
     {
@@ -43,11 +43,11 @@ namespace Conference.Common.Entity
                         if (!this.cachedConnectionStringsMap.TryGetValue(nameOrConnectionString, out connectionString))
                         {
                             var connectionStringName = "DbContext." + nameOrConnectionString;
-                            var settingValue = CloudConfigurationManager.GetSetting(connectionStringName);
-                            if (!string.IsNullOrEmpty(settingValue))
-                            {
-                                connectionString = settingValue;
-                            }
+                            //var settingValue = CloudConfigurationManager.GetSetting(connectionStringName);
+                            //if (!string.IsNullOrEmpty(settingValue))
+                            //{
+                            //    connectionString = settingValue;
+                            //}
 
                             if (connectionString == null)
                             {

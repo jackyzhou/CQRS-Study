@@ -20,6 +20,7 @@ namespace Conference.IntegrationTests.ConferenceServiceFixture
     using Infrastructure.Messaging;
     using Moq;
     using Xunit;
+    using System.Data.Entity.Core;
 
     public class given_no_conference : IDisposable
     {

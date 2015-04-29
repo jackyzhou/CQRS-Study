@@ -26,7 +26,7 @@ namespace Conference.Web.Public
     {
         public static void Initialize()
         {
-            Database.DefaultConnectionFactory = new ServiceConfigurationSettingConnectionFactory(Database.DefaultConnectionFactory);
+            //Database.DefaultConnectionFactory = new ServiceConfigurationSettingConnectionFactory(Database.DefaultConnectionFactory);
 
             Database.SetInitializer<BlobStorageDbContext>(null);
             Database.SetInitializer<PaymentsReadDbContext>(null);

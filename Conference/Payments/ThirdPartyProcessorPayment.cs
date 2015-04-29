@@ -20,6 +20,7 @@ namespace Payments
     using Infrastructure.Messaging;
     using Infrastructure.Database;
     using Payments.Contracts.Events;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     /// <summary>
     /// Represents a payment through a 3rd party system.

@@ -20,14 +20,14 @@ namespace Conference.Web.Utils
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if (MaintenanceMode.IsInMaintainanceMode)
-            {
-                filterContext.Result = new ViewResult { ViewName = "MaintenanceMode" };
-            }
-            else
-            {
-                base.OnActionExecuting(filterContext);
-            }
+            //if (MaintenanceMode.IsInMaintainanceMode)
+            //{
+            //    filterContext.Result = new ViewResult { ViewName = "MaintenanceMode" };
+            //}
+            //else
+            //{
+            //    base.OnActionExecuting(filterContext);
+            //}
         }
     }
 }
