@@ -27,9 +27,9 @@ namespace Infrastructure.Sql.IntegrationTests.Messaging.MessageReceiverFixture
 
         public given_sender_and_receiver()
         {
-            this.connectionFactory = System.Data.Entity.Database.DefaultConnectionFactory;
-            this.sender = new MessageSender(this.connectionFactory, "TestSqlMessaging", "Test.Commands");
-            this.receiver = new TestableMessageReceiver(this.connectionFactory);
+            //this.connectionFactory = System.Data.Entity.Database.DefaultConnectionFactory;
+            this.sender = new MessageSender("TestSqlMessaging", "Test.Commands");
+            this.receiver = new TestableMessageReceiver();
 
             MessagingDbInitializer.CreateDatabaseObjects(this.connectionFactory.CreateConnection("TestSqlMessaging").ConnectionString, "Test", true);
         }
@@ -130,7 +130,7 @@ namespace Infrastructure.Sql.IntegrationTests.Messaging.MessageReceiverFixture
         [Fact]
         public void when_receiving_message_then_other_receivers_cannot_see_message_but_see_other_messages()
         {
-            var secondReceiver = new TestableMessageReceiver(this.connectionFactory);
+            var secondReceiver = new TestableMessageReceiver();
 
             this.sender.Send(new Message("message1"));
             this.sender.Send(new Message("message2"));
@@ -163,7 +163,7 @@ namespace Infrastructure.Sql.IntegrationTests.Messaging.MessageReceiverFixture
         [Fact]
         public void when_receiving_message_then_can_send_new_message()
         {
-            var secondReceiver = new TestableMessageReceiver(this.connectionFactory);
+            var secondReceiver = new TestableMessageReceiver();
 
             this.sender.Send(new Message("message1"));
 
@@ -195,8 +195,8 @@ namespace Infrastructure.Sql.IntegrationTests.Messaging.MessageReceiverFixture
 
         public class TestableMessageReceiver : MessageReceiver
         {
-            public TestableMessageReceiver(System.Data.Entity.Infrastructure.IDbConnectionFactory connectionFactory)
-                : base(connectionFactory, "TestSqlMessaging", "Test.Commands")
+            public TestableMessageReceiver()
+                : base("TestSqlMessaging", "Test.Commands")
             {
             }
 

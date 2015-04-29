@@ -13,6 +13,7 @@
 
 namespace Infrastructure.Sql.Messaging.Implementation
 {
+    using Infrastructure.Sql.Database;
     using System;
     using System.Data;
     using System.Data.Entity.Infrastructure;
@@ -31,14 +32,14 @@ namespace Infrastructure.Sql.Messaging.Implementation
         private readonly object lockObject = new object();
         private CancellationTokenSource cancellationSource;
 
-        public MessageReceiver(IDbConnectionFactory connectionFactory, string name, string tableName)
-            : this(connectionFactory, name, tableName, TimeSpan.FromMilliseconds(100))
+        public MessageReceiver(string name, string tableName)
+            : this(name, tableName, TimeSpan.FromMilliseconds(100))
         {
         }
 
-        public MessageReceiver(IDbConnectionFactory connectionFactory, string name, string tableName, TimeSpan pollDelay)
+        public MessageReceiver(string name, string tableName, TimeSpan pollDelay)
         {
-            this.connectionFactory = connectionFactory;
+            this.connectionFactory = new CustomConnectionFactory("localhost", "Conference");
             this.name = name;
             this.pollDelay = pollDelay;
 

@@ -48,11 +48,11 @@ namespace WorkerRoleCommandProcessor
 
             container.RegisterType<IBlobStorage, SqlBlobStorage>(new ContainerControlledLifetimeManager(), new InjectionConstructor("BlobStorage"));
 
-            var commandBus = new CommandBus(new MessageSender(Database.DefaultConnectionFactory, "SqlBus", "SqlBus.Commands"), serializer);
-            var eventBus = new EventBus(new MessageSender(Database.DefaultConnectionFactory, "SqlBus", "SqlBus.Events"), serializer);
+            var commandBus = new CommandBus(new MessageSender("SqlBus", "SqlBus.Commands"), serializer);
+            var eventBus = new EventBus(new MessageSender("SqlBus", "SqlBus.Events"), serializer);
 
-            var commandProcessor = new CommandProcessor(new MessageReceiver(Database.DefaultConnectionFactory, "SqlBus", "SqlBus.Commands"), serializer);
-            var eventProcessor = new EventProcessor(new MessageReceiver(Database.DefaultConnectionFactory, "SqlBus", "SqlBus.Events"), serializer);
+            var commandProcessor = new CommandProcessor(new MessageReceiver("SqlBus", "SqlBus.Commands"), serializer);
+            var eventProcessor = new EventProcessor(new MessageReceiver("SqlBus", "SqlBus.Events"), serializer);
 
             container.RegisterInstance<ICommandBus>(commandBus);
             container.RegisterInstance<IEventBus>(eventBus);

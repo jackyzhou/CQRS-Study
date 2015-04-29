@@ -62,6 +62,7 @@
     <Compile Include="BlobStorage\BlobEntity.cs" />
     <Compile Include="BlobStorage\BlobStorageDbContext.cs" />
     <Compile Include="BlobStorage\SqlBlobStorage.cs" />
+    <Compile Include="Database\CustomConnectionFactory.cs" />
     <Compile Include="Database\SqlDataContext.cs" />
     <Compile Include="MessageLog\SqlMessageLogHandler.cs" />
     <Compile Include="MessageLog\MessageLogDbContext.cs" />

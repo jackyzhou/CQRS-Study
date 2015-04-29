@@ -13,6 +13,7 @@
 
 namespace Infrastructure.Sql.Messaging.Implementation
 {
+    using Infrastructure.Sql.Database;
     using System;
     using System.Collections.Generic;
     using System.Data;
@@ -27,9 +28,9 @@ namespace Infrastructure.Sql.Messaging.Implementation
         private readonly string name;
         private readonly string insertQuery;
 
-        public MessageSender(IDbConnectionFactory connectionFactory, string name, string tableName)
+        public MessageSender(string name, string tableName)
         {
-            this.connectionFactory = connectionFactory;
+            this.connectionFactory = new CustomConnectionFactory("localhost", "Conference");
             this.name = name;
             this.insertQuery = string.Format("INSERT INTO {0} (Body, DeliveryDate, CorrelationId) VALUES (@Body, @DeliveryDate, @CorrelationId)", tableName);
         }

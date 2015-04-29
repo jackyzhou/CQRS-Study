@@ -26,8 +26,8 @@ namespace Infrastructure.Sql.IntegrationTests.Messaging.MessageSenderFixture
 
         public given_sender()
         {
-            this.connectionFactory = System.Data.Entity.Database.DefaultConnectionFactory;
-            this.sender = new MessageSender(this.connectionFactory, "TestSqlMessaging", "Test.Commands");
+            //this.connectionFactory = System.Data.Entity.Database.DefaultConnectionFactory;
+            this.sender = new MessageSender("TestSqlMessaging", "Test.Commands");
 
             MessagingDbInitializer.CreateDatabaseObjects(this.connectionFactory.CreateConnection("TestSqlMessaging").ConnectionString, "Test", true);
         }
