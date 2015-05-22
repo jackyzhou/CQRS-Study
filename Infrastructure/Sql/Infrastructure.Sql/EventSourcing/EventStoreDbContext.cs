@@ -14,6 +14,7 @@
 namespace Infrastructure.Sql.EventSourcing
 {
     using System;
+    using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity;
 
     /// <summary>
@@ -33,12 +34,15 @@ namespace Infrastructure.Sql.EventSourcing
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Event>().HasKey(x => new { x.AggregateId, x.AggregateType, x.Version }).ToTable("Events", SchemaName);
+            modelBuilder.Entity<Event>().HasKey(x => x.Id).ToTable("Events", SchemaName);
+            modelBuilder.Entity<Event>().Property(x => x.Id)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
         }
     }
 
     public class Event
     {
+        public long Id { get; set; }
         public Guid AggregateId { get; set; }
         public string AggregateType { get; set; }
         public int Version { get; set; }
