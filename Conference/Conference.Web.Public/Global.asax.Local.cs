@@ -31,7 +31,7 @@ namespace Conference.Web.Public
 
             container.RegisterType<IBlobStorage, SqlBlobStorage>(new ContainerControlledLifetimeManager(), new InjectionConstructor("BlobStorage"));
             container.RegisterType<IMessageSender, MessageSender>(
-                "Commands", new TransientLifetimeManager(), new InjectionConstructor(Database.DefaultConnectionFactory, "SqlBus", "SqlBus.Commands"));
+                "Commands", new TransientLifetimeManager(), new InjectionConstructor("SqlBus", "SqlBus.Commands"));
             container.RegisterType<ICommandBus, CommandBus>(
                 new ContainerControlledLifetimeManager(), new InjectionConstructor(new ResolvedParameter<IMessageSender>("Commands"), serializer));
         }

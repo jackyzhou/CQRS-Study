@@ -11,20 +11,19 @@
 // See the License for the specific language governing permissions and limitations under the License.
 // ==============================================================================================================
 
+using System.Runtime.Caching;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Routing;
+using Microsoft.Practices.Unity;
+using Payments.ReadModel;
+using Payments.ReadModel.Implementation;
+using Registration.ReadModel;
+using Registration.ReadModel.Implementation;
+using Conference.Web.Utils;
+
 namespace Conference.Web.Public
 {
-    using System.Runtime.Caching;
-    using System.Web;
-    using System.Web.Mvc;
-    using System.Web.Routing;
-    using Conference.Common;
-    using Conference.Web.Utils;
-    using Microsoft.Practices.Unity;
-    using Payments.ReadModel;
-    using Payments.ReadModel.Implementation;
-    using Registration.ReadModel;
-    using Registration.ReadModel.Implementation;
-
     public partial class MvcApplication : HttpApplication
     {
         private IUnityContainer container;
