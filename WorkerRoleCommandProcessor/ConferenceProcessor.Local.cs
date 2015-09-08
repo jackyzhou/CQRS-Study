@@ -46,7 +46,7 @@ namespace WorkerRoleCommandProcessor
             var serializer = container.Resolve<ITextSerializer>();
             var metadata = container.Resolve<IMetadataProvider>();
 
-            container.RegisterType<IBlobStorage, SqlBlobStorage>(new ContainerControlledLifetimeManager(), new InjectionConstructor("BlobStorage"));
+            container.RegisterType<IBlobStorage, SqlBlobStorage>(new ContainerControlledLifetimeManager(), new InjectionConstructor("Conference"));
 
             var commandBus = new CommandBus(new MessageSender("SqlBus", "SqlBus.Commands"), serializer);
             var eventBus = new EventBus(new MessageSender("SqlBus", "SqlBus.Events"), serializer);
@@ -62,7 +62,7 @@ namespace WorkerRoleCommandProcessor
             container.RegisterInstance<IProcessor>("EventProcessor", eventProcessor);
 
             // Event log database and handler.
-            container.RegisterType<SqlMessageLog>(new InjectionConstructor("MessageLog", serializer, metadata));
+            container.RegisterType<SqlMessageLog>(new InjectionConstructor("Conference", serializer, metadata));
             container.RegisterType<IEventHandler, SqlMessageLogHandler>("SqlMessageLogHandler");
             container.RegisterType<ICommandHandler, SqlMessageLogHandler>("SqlMessageLogHandler");
 
@@ -86,7 +86,7 @@ namespace WorkerRoleCommandProcessor
         private void RegisterRepository(UnityContainer container)
         {
             // repository
-            container.RegisterType<EventStoreDbContext>(new TransientLifetimeManager(), new InjectionConstructor("EventStore"));
+            container.RegisterType<EventStoreDbContext>(new TransientLifetimeManager(), new InjectionConstructor("Conference"));
             container.RegisterType(typeof(IEventSourcedRepository<>), typeof(SqlEventSourcedRepository<>), new ContainerControlledLifetimeManager());
         }
 

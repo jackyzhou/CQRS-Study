@@ -35,7 +35,7 @@ namespace Conference
         private readonly string nameOrConnectionString;
         private readonly RetryPolicy<SqlDatabaseTransientErrorDetectionStrategy> retryPolicy;
 
-        public ConferenceService(IEventBus eventBus, string nameOrConnectionString = "ConferenceManagement")
+        public ConferenceService(IEventBus eventBus, string nameOrConnectionString = "Conference")
         {
             // NOTE: the database storage cannot be transactionally consistent with the 
             // event bus, so there is a chance that the conference state is saved 

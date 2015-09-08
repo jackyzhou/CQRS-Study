@@ -50,7 +50,7 @@ namespace Conference.Web.Public
 
             this.container = CreateContainer();
 
-            DependencyResolver.SetResolver(new UnityServiceLocator(this.container));
+            DependencyResolver.SetResolver(new UnityMvcResolver(this.container));
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RouteTable.Routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
@@ -82,9 +82,9 @@ namespace Conference.Web.Public
             try
             {
                 // repositories used by the application
-
-                container.RegisterType<ConferenceRegistrationDbContext>(new TransientLifetimeManager(), new InjectionConstructor("ConferenceRegistration"));
-                container.RegisterType<PaymentsReadDbContext>(new TransientLifetimeManager(), new InjectionConstructor("Payments"));
+                //container.RegisterType<IControllerFactory, DefaultControllerFactory>();
+                container.RegisterType<ConferenceRegistrationDbContext>(new TransientLifetimeManager(), new InjectionConstructor("Conference"));
+                container.RegisterType<PaymentsReadDbContext>(new TransientLifetimeManager(), new InjectionConstructor("Conference"));
 
                 var cache = new MemoryCache("ReadModel");
                 container.RegisterType<IOrderDao, OrderDao>();

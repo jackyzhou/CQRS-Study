@@ -29,7 +29,7 @@ namespace Conference.Web.Public
             var serializer = new JsonTextSerializer();
             container.RegisterInstance<ITextSerializer>(serializer);
 
-            container.RegisterType<IBlobStorage, SqlBlobStorage>(new ContainerControlledLifetimeManager(), new InjectionConstructor("BlobStorage"));
+            container.RegisterType<IBlobStorage, SqlBlobStorage>(new ContainerControlledLifetimeManager(), new InjectionConstructor("Conference"));
             container.RegisterType<IMessageSender, MessageSender>(
                 "Commands", new TransientLifetimeManager(), new InjectionConstructor("SqlBus", "SqlBus.Commands"));
             container.RegisterType<ICommandBus, CommandBus>(
